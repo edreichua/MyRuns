@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"H01Z-1ikbwOw463Un2bFZHenx1g/Fi7dDCsdD9k6tHUHgjbJz0RjyTs\"",
+ "etag": "\"H01Z-1ikbwOw463Un2bFZHenx1g/QU17qUL1Sg47iy71UvUss8gxrgg\"",
  "discoveryVersion": "v1",
  "id": "messaging:v1",
  "name": "messaging",
@@ -13,8 +13,8 @@
   "x32": "http://www.google.com/images/icons/product/search-32.gif"
  },
  "protocol": "rpc",
- "rootUrl": "https://myApplicationId.appspot.com/_ah/api/",
- "rpcUrl": "https://myApplicationId.appspot.com/_ah/api/rpc",
+ "rootUrl": "https://ultra-badge-131020.appspot.com/_ah/api/",
+ "rpcUrl": "https://ultra-badge-131020.appspot.com/_ah/api/rpc",
  "rpcPath": "/_ah/api/rpc",
  "parameters": {
   "alt": {
