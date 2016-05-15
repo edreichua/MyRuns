@@ -2,17 +2,19 @@ package com.example.edreichua.myruns6;
 
 import android.util.Log;
 
-import java.io.BufferedReader;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+import org.json.JSONArray;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 
 /**
@@ -30,70 +32,48 @@ public final class ServerUtilities {
 	 * 
 	 * @param endpoint
 	 *            POST address.
-	 * @param params
+	 * @param jArray
 	 *            request parameters.
 	 * 
 	 * @throws IOException
 	 *             propagated from POST.
 	 */
-	public static String post(String endpoint, Map<String, String> params)
+	public static void post(String endpoint, JSONArray jArray)
 			throws IOException {
+		Log.d("Testing url", endpoint);
 		URL url;
 		try {
 			url = new URL(endpoint);
 		} catch (MalformedURLException e) {
 			throw new IllegalArgumentException("invalid url: " + endpoint);
 		}
-		StringBuilder bodyBuilder = new StringBuilder();
-		Iterator<Entry<String, String>> iterator = params.entrySet().iterator();
 
-		// constructs the POST body using the parameters
-		while (iterator.hasNext()) {
-			Entry<String, String> param = iterator.next();
-			bodyBuilder.append(param.getKey()).append('=')
-					.append(param.getValue());
-			if (iterator.hasNext()) {
-				bodyBuilder.append('&');
-			}
-		}
-		String body = bodyBuilder.toString();
-		byte[] bytes = body.getBytes();
-		HttpURLConnection conn = null;
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpContext httpContext = new BasicHttpContext();
+		HttpPost httpPost = new HttpPost(endpoint);
+
+
 		try {
-			conn = (HttpURLConnection) url.openConnection();
-			conn.setDoOutput(true);
-			conn.setUseCaches(false);
-			conn.setFixedLengthStreamingMode(bytes.length);
-			conn.setRequestMethod("POST");
-			conn.setRequestProperty("Content-Type",
-					"application/x-www-form-urlencoded;charset=UTF-8");
+			StringEntity se = new StringEntity(jArray.toString());
+			httpPost.setEntity(se);
+			httpPost.setHeader("Accept", "application/json");
+			httpPost.setHeader("Content-type", "application/json");
+
 			// post the request
-			OutputStream out = conn.getOutputStream();
-			out.write(bytes);
-			out.close();
+			HttpResponse response = httpClient.execute(httpPost, httpContext);
+
 			// handle the response
-			int status = conn.getResponseCode();
+			int status = response.getStatusLine().getStatusCode();
 			Log.d("TAGG",""+status);
 			if (status != 200) {
 				throw new IOException("Post failed with error code " + status);
 			}
 
 			// Get Response
-			InputStream is = conn.getInputStream();
-			BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-			String line;
-			StringBuffer response = new StringBuffer();
-			while ((line = rd.readLine()) != null) {
-				response.append(line);
-				response.append('\n');
-			}
-			rd.close();
-			return response.toString();
+			HttpEntity entity = response.getEntity();
 
-		} finally {
-			if (conn != null) {
-				conn.disconnect();
-			}
+		} catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 }

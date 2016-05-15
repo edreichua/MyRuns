@@ -8,6 +8,34 @@
         <filter-name>ObjectifyFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <servlet>
+        <servlet-name>MyRunsAppEngine</servlet-name>
+        <servlet-class>com.example.edreichua.myapplication.backend.MyRunsAppEngineServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyRunsAppEngine</servlet-name>
+        <url-pattern>/MyRunsAppEngine.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>PostData</servlet-name>
+        <servlet-class>com.example.edreichua.myapplication.backend.PostDataServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PostData</servlet-name>
+        <url-pattern>/PostData.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SendDeleteMessage</servlet-name>
+        <servlet-class>com.example.edreichua.myapplication.backend.SendDeleteMessageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SendDeleteMessage</servlet-name>
+        <url-pattern>/SendDeleteMessage.do</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>SystemServiceServlet</servlet-name>
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
@@ -24,6 +52,6 @@
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>MyRunsAppEngine.do</welcome-file>
     </welcome-file-list>
 </web-app>

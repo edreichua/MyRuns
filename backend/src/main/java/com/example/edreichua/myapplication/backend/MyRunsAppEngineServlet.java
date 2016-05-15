@@ -23,7 +23,7 @@ public class MyRunsAppEngineServlet extends HttpServlet {
             throws IOException, ServletException {
         ArrayList<ExerciseData> result = ExerciseDataStore.query();
         req.setAttribute("result", result);
-        getServletContext().getRequestDispatcher("/query_result.jsp").forward(
+        getServletContext().getRequestDispatcher("/query.jsp").forward(
                 req, resp);
     }
 

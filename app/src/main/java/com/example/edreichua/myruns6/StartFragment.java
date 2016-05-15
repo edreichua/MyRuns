@@ -4,7 +4,10 @@ package com.example.edreichua.myruns6;
  * Created by edreichua on 4/22/16.
  */
 import android.app.Fragment;
+import android.content.AsyncTaskLoader;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +15,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -111,9 +121,56 @@ public class StartFragment extends Fragment {
             @Override
             public void onClick(View arg) {
 
+                new AsyncTask<Void, Void, String>() {
+
+                    @Override
+                    protected String doInBackground(Void... arg0) {
+
+                        try{
+                            ArrayList<ExerciseEntry> entries = new ReadFromDB(getActivity()).loadInBackground();
+
+                            JSONArray jOuterArray = new JSONArray();
+
+                            for(ExerciseEntry entry: entries){
+                                JSONObject jInnerObject = new JSONObject();
+                                jInnerObject.put(Globals.FIELD_NAME_ID, entry.getmId());
+                                jInnerObject.put(Globals.FIELD_NAME_INPUT, entry.getmInputType());
+                                jInnerObject.put(Globals.FIELD_NAME_ACTIVITY, entry.getmActivityType());
+                                jInnerObject.put(Globals.FIELD_NAME_DATETIME, entry.getmDateTime());
+                                jInnerObject.put(Globals.FIELD_NAME_DURATION, entry.getmDuration());
+                                jInnerObject.put(Globals.FIELD_NAME_DISTANCE, entry.getmDistance());
+                                jInnerObject.put(Globals.FIELD_NAME_AVGSPEED, entry.getmAvgSpeed());
+                                jInnerObject.put(Globals.FIELD_NAME_CALORIES, entry.getmCalorie());
+                                jInnerObject.put(Globals.FIELD_NAME_CLIMB, entry.getmClimb());
+                                jInnerObject.put(Globals.FIELD_NAME_HEARTRATE, entry.getmHeartRate());
+                                jInnerObject.put(Globals.FIELD_NAME_COMMENT, entry.getmComment());
+
+                                jOuterArray.put(jInnerObject);
+                            }
+                            ServerUtilities.post(Globals.URL+"/PostData.do", jOuterArray);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return "";
+                    }
+                }.execute();
+
             }
         });
 
         return rootView;
+    }
+
+    public static class ReadFromDB extends AsyncTaskLoader<ArrayList<ExerciseEntry>> {
+
+        public ReadFromDB(Context context){
+            super(context);
+        }
+
+        @Override
+        public ArrayList<ExerciseEntry> loadInBackground() {
+            ArrayList<ExerciseEntry> entries = MainActivity.DBhelper.fetchEntries();
+            return entries;
+        }
     }
 }

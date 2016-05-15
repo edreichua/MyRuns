@@ -106,7 +106,7 @@ public class ExerciseDataStore {
         }
 
         return new ExerciseData(
-            (int) entity.getProperty(ExerciseData.FIELD_NAME_ID),
+            (String) entity.getProperty(ExerciseData.FIELD_NAME_ID),
             (String) entity.getProperty(ExerciseData.FIELD_NAME_INPUT),
             (String) entity.getProperty(ExerciseData.FIELD_NAME_ACTIVITY),
             (String) entity.getProperty(ExerciseData.FIELD_NAME_DATETIME),

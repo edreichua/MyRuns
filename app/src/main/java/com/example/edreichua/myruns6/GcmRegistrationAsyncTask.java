@@ -24,9 +24,6 @@ public class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
     private GoogleCloudMessaging gcm;
     private Context context;
 
-    private static final String SENDER_ID = "1040154061256";
-    private static final String URL = "https://ultra-badge-131020.appspot.com/_ah/api/";
-
     public GcmRegistrationAsyncTask(Context context) {
         this.context = context;
     }
@@ -35,7 +32,7 @@ public class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
     protected String doInBackground(Void... params) {
         if (regService == null) {
             Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
-                    .setRootUrl(URL);
+                    .setRootUrl("https://ultra-badge-131020.appspot.com/_ah/api");
             regService = builder.build();
         }
 
@@ -44,7 +41,7 @@ public class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
             if (gcm == null) {
                 gcm = GoogleCloudMessaging.getInstance(context);
             }
-            String regId = gcm.register(SENDER_ID);
+            String regId = gcm.register(Globals.SENDER_ID);
             msg = "Device registered, registration ID=" + regId;
             Log.d("Testing",msg);
             regService.register(regId).execute();

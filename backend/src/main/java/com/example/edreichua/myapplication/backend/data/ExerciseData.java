@@ -20,11 +20,11 @@ public class ExerciseData {
     public static final String FIELD_NAME_HEARTRATE = "heartrate";
     public static final String FIELD_NAME_COMMENT = "comment";
 
-    public int mID;
-    public String mInput, mActivity, mDateTime, mDuration, mDistance, mAverageSpeed, mCalories,
+
+    public String mID, mInput, mActivity, mDateTime, mDuration, mDistance, mAverageSpeed, mCalories,
             mClimb, mHeartRate, mComment;
 
-    public ExerciseData(int _id, String _input, String _activity, String _dateTime,
+    public ExerciseData(String _id, String _input, String _activity, String _dateTime,
                         String _duration, String _distance, String _avgSpeed,
                         String _calories, String _climb, String _heartrate, String _comment) {
         mID = _id;
