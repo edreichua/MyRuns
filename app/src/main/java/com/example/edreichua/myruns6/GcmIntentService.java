@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -28,20 +29,20 @@ public class GcmIntentService extends IntentService {
         // The getMessageType() intent parameter must be the intent you received
         // in your BroadcastReceiver.
         String messageType = gcm.getMessageType(intent);
+        Log.d("Testing intent","triggered");
 
         if (extras != null && !extras.isEmpty()) {  // has effect of unparcelling Bundle
             // Since we're not using two way messaging, this is all we really to check for
             if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-                Logger.getLogger("GCM_RECEIVED").log(Level.INFO, extras.toString());
 
                 showToast(extras.getString("message"));
-
                 long rowid = Long.parseLong(extras.getString("message"));
 
                 MainActivity.DBhelper.removeEntry(rowid);
                 HistoryFragment.adapter.notifyDataSetChanged();
             }
         }
+
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
@@ -49,7 +50,7 @@ public class GcmIntentService extends IntentService {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "entry "+message+" deleted", Toast.LENGTH_LONG).show();
             }
         });
     }

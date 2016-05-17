@@ -21,20 +21,14 @@ public class SendDeleteMessageServlet extends HttpServlet {
             throws IOException, ServletException {
 
         String id = req.getParameter("id");
-        ExerciseDataStore.delete(id);
-        resp.sendRedirect("/MyRunsAppEngine.do");
-
         boolean ret = ExerciseDataStore.delete(id);
-        if (ret) {
-            req.setAttribute("_retStr", "Entry " + id + " successfully deleted");
 
+        if(ret) {
             MessagingEndpoint msg = new MessagingEndpoint();
             msg.sendMessage(id);
+        }
 
-        }
-        else {
-            req.setAttribute("_retStr", id + " does not exist");
-        }
+        resp.sendRedirect("/MyRunsAppEngine.do");
 
         getServletContext().getRequestDispatcher("/query.jsp").forward(
                 req, resp);
