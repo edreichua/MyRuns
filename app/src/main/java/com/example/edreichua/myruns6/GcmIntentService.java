@@ -29,7 +29,7 @@ public class GcmIntentService extends IntentService {
         // The getMessageType() intent parameter must be the intent you received
         // in your BroadcastReceiver.
         String messageType = gcm.getMessageType(intent);
-        Log.d("Testing intent","triggered");
+        Log.d("Testing intent", "triggered");
 
         if (extras != null && !extras.isEmpty()) {  // has effect of unparcelling Bundle
             // Since we're not using two way messaging, this is all we really to check for
@@ -39,7 +39,7 @@ public class GcmIntentService extends IntentService {
                 long rowid = Long.parseLong(extras.getString("message"));
 
                 MainActivity.DBhelper.removeEntry(rowid);
-                HistoryFragment.adapter.notifyDataSetChanged();
+
             }
         }
 
@@ -50,8 +50,9 @@ public class GcmIntentService extends IntentService {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(), "entry "+message+" deleted", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "entry " + message + " deleted", Toast.LENGTH_LONG).show();
             }
         });
     }
+
 }

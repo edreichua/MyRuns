@@ -29,9 +29,6 @@ public class SendDeleteMessageServlet extends HttpServlet {
         }
 
         resp.sendRedirect("/MyRunsAppEngine.do");
-
-        getServletContext().getRequestDispatcher("/query.jsp").forward(
-                req, resp);
     }
 
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
