@@ -3,6 +3,9 @@ package com.example.edreichua.myruns6;
 import android.util.Log;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,13 +34,13 @@ public final class ServerUtilities {
 	 * 
 	 * @param endpoint
 	 *            POST address.
-	 * @param jArray
+	 * @param jArrayString
 	 *            request parameters.
 	 * 
 	 * @throws IOException
 	 *             propagated from POST.
 	 */
-	public static void post(String endpoint, JSONArray jArray)
+	public static void post(String endpoint, String jArrayString)
 			throws IOException {
 		Log.d("Testing url", endpoint);
 		URL url;
@@ -49,7 +52,7 @@ public final class ServerUtilities {
 
 		// Save parameters to map
 		Map<String,String> params = new HashMap<>();
-		params.put("result",jArray.toString());
+		params.put("result",jArrayString);
 		params.put("regId",Globals.regID);
 
 		StringBuilder bodyBuilder = new StringBuilder();
@@ -67,7 +70,7 @@ public final class ServerUtilities {
 
 		// Send message to server
 		String body = bodyBuilder.toString();
-		Log.d("Testing body",body);
+		Log.d("Testing body", body);
 
 		byte[] bytes = body.getBytes();
 		HttpURLConnection conn = null;

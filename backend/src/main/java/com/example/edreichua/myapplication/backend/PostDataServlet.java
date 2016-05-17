@@ -25,11 +25,9 @@ public class PostDataServlet extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
 
-
         // Get parameters from req
         String jArrayString = req.getParameter("result");
         String regID = req.getParameter("name");
-
 
        //  Get Json Array
         JSONArray jArray = null;
@@ -38,18 +36,6 @@ public class PostDataServlet extends HttpServlet {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-//        if(regID!=null) {
-//            resp.setContentType("text/html");
-//            PrintWriter out = resp.getWriter();
-//            out.println(regID);
-//            out.close();
-//        }else{
-//            resp.setContentType("text/html");
-//            PrintWriter out = resp.getWriter();
-//            out.println("This is null");
-//            out.close();
-//        }
 
         ArrayList<ExerciseData> result = new ArrayList<>();
 

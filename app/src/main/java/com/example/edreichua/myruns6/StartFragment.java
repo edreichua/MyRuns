@@ -135,29 +135,28 @@ public class StartFragment extends Fragment {
                             for(ExerciseEntry entry: entries){
                                 JSONObject jInnerObject = new JSONObject();
                                 Log.d("Testing Acivity", Integer.toString(entry.getmActivityType()));
-                                jInnerObject.put(Globals.FIELD_NAME_ID, entry.getmId());
-                                jInnerObject.put(Globals.FIELD_NAME_INPUT, entry.getmInputType());
-                                jInnerObject.put(Globals.FIELD_NAME_ACTIVITY, entry.getmActivityType());
-                                jInnerObject.put(Globals.FIELD_NAME_DATETIME, entry.getmDateTime());
-                                jInnerObject.put(Globals.FIELD_NAME_DURATION, entry.getmDuration());
-                                jInnerObject.put(Globals.FIELD_NAME_DISTANCE, entry.getmDistance());
-                                jInnerObject.put(Globals.FIELD_NAME_AVGSPEED, entry.getmAvgSpeed());
-                                jInnerObject.put(Globals.FIELD_NAME_CALORIES, entry.getmCalorie());
-                                jInnerObject.put(Globals.FIELD_NAME_CLIMB, entry.getmClimb());
-                                jInnerObject.put(Globals.FIELD_NAME_HEARTRATE, entry.getmHeartRate());
-                                jInnerObject.put(Globals.FIELD_NAME_COMMENT, entry.getmComment());
+                                jInnerObject.put(Globals.FIELD_NAME_ID, Long.toString(entry.getmId()));
+                                jInnerObject.put(Globals.FIELD_NAME_INPUT, ID_TO_INPUT[entry.getmInputType()]);
+                                jInnerObject.put(Globals.FIELD_NAME_ACTIVITY, ID_TO_ACTIVITY[entry.getmActivityType()]);
+                                jInnerObject.put(Globals.FIELD_NAME_DATETIME, HistoryFragment.formatDateTime(entry.getmDateTime()));
+                                jInnerObject.put(Globals.FIELD_NAME_DURATION, HistoryFragment.formatDuration(entry.getmDuration()));
+                                jInnerObject.put(Globals.FIELD_NAME_DISTANCE, HistoryFragment.formatDistance(entry.getmDistance(),"Miles"));
+                                jInnerObject.put(Globals.FIELD_NAME_AVGSPEED, MapDisplayActivity.formatAvgSpeed(entry.getmAvgSpeed(),"Miles"));
+                                jInnerObject.put(Globals.FIELD_NAME_CALORIES, MapDisplayActivity.formatCalories(entry.getmCalorie()));
+                                jInnerObject.put(Globals.FIELD_NAME_CLIMB, MapDisplayActivity.formatClimb(entry.getmClimb(),"Miles"));
+                                jInnerObject.put(Globals.FIELD_NAME_HEARTRATE, Integer.toString(entry.getmHeartRate()));
+                                jInnerObject.put(Globals.FIELD_NAME_COMMENT, entry.getmComment()+" ");
                                 Log.d("Testing inner", jInnerObject.toString());
                                 jOuterArray.put(jInnerObject);
                             }
                             Log.d("Testing outer", jOuterArray.toString());
-                            ServerUtilities.post(Globals.URL+"/PostData.do", jOuterArray);
+                            ServerUtilities.post(Globals.URL+"/PostData.do", jOuterArray.toString());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                         return "";
                     }
                 }.execute();
-
             }
         });
 

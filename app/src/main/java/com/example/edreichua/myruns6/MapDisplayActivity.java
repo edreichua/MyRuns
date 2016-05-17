@@ -554,7 +554,7 @@ public class MapDisplayActivity extends FragmentActivity implements ServiceConne
 
         // Set the text view for average speed
         TextView gpsAvgSpeed = (TextView) findViewById(R.id.gps_avg_speed);
-        gpsAvgSpeed.setText(formatAvgSpeed(entry.getmAvgSpeed(), unitPref));
+        gpsAvgSpeed.setText("Avg speed: " + formatAvgSpeed(entry.getmAvgSpeed(), unitPref));
 
         // Set the text view for current speed
         TextView gpsCurSpeed = (TextView) findViewById(R.id.gps_cur_speed);
@@ -562,15 +562,15 @@ public class MapDisplayActivity extends FragmentActivity implements ServiceConne
 
         // Set the text view for climb
         TextView gpsClimb = (TextView) findViewById(R.id.gps_climb);
-        gpsClimb.setText(formatClimb(entry.getmClimb(), unitPref));
+        gpsClimb.setText("Climb: " + formatClimb(entry.getmClimb(), unitPref));
 
         // Set the text view for calorie
         TextView gpsCalorie = (TextView) findViewById(R.id.gps_calories);
-        gpsCalorie.setText(formatCalories(entry.getmCalorie()));
+        gpsCalorie.setText("Calories: "+formatCalories(entry.getmCalorie())+"cal");
 
         // Set the text view for distance
         TextView gpsDistance = (TextView) findViewById(R.id.gps_distance);
-        gpsDistance.setText(formatDistance(entry.getmDistance(), unitPref));
+        gpsDistance.setText("Distance: " + formatDistance(entry.getmDistance(), unitPref));
     }
 
 
@@ -599,7 +599,7 @@ public class MapDisplayActivity extends FragmentActivity implements ServiceConne
             speed /= ManualEntryActivity.MILES2KM; // converts from km to miles
             unit = "m/h";
         }
-        return "Avg speed: " + String.format("%.2f", speed) + " " + unit;
+        return String.format("%.2f", speed) + " " + unit;
     }
 
     /**
@@ -629,7 +629,7 @@ public class MapDisplayActivity extends FragmentActivity implements ServiceConne
      * @return
      */
     public static String formatClimb(Double climb, String unitPref) {
-        return "Climb: " + String.format("%.2f", climb) + " " + unitPref;
+        return String.format("%.2f", climb) + " " + unitPref;
     }
 
     /**
@@ -639,7 +639,7 @@ public class MapDisplayActivity extends FragmentActivity implements ServiceConne
      * @return
      */
     public static String formatCalories(int cal) {
-        return "Calorie: " + cal;
+        return cal+" ";
     }
 
     /**
@@ -653,7 +653,7 @@ public class MapDisplayActivity extends FragmentActivity implements ServiceConne
         if (unitPref.equals("Miles")) {
             distance /= ManualEntryActivity.MILES2KM; // converts from km to miles
         }
-        return "Distance: " + String.format("%.2f", distance) + " " + unitPref;
+        return String.format("%.2f", distance) + " " + unitPref;
     }
 
 
