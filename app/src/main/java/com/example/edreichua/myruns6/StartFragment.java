@@ -129,7 +129,6 @@ public class StartFragment extends Fragment {
 
                         try{
                             ArrayList<ExerciseEntry> entries = new ReadFromDB(getActivity()).loadInBackground();
-
                             JSONArray jOuterArray = new JSONArray();
 
                             for(ExerciseEntry entry: entries){
@@ -140,17 +139,23 @@ public class StartFragment extends Fragment {
                                 jInnerObject.put(Globals.FIELD_NAME_ACTIVITY, ID_TO_ACTIVITY[entry.getmActivityType()]);
                                 jInnerObject.put(Globals.FIELD_NAME_DATETIME, HistoryFragment.formatDateTime(entry.getmDateTime()));
                                 jInnerObject.put(Globals.FIELD_NAME_DURATION, HistoryFragment.formatDuration(entry.getmDuration()));
-                                jInnerObject.put(Globals.FIELD_NAME_DISTANCE, HistoryFragment.formatDistance(entry.getmDistance(),"Miles"));
-                                jInnerObject.put(Globals.FIELD_NAME_AVGSPEED, MapDisplayActivity.formatAvgSpeed(entry.getmAvgSpeed(),"Miles"));
+                                jInnerObject.put(Globals.FIELD_NAME_DISTANCE, HistoryFragment.formatDistance(entry.getmDistance(), "Miles"));
+                                jInnerObject.put(Globals.FIELD_NAME_AVGSPEED, MapDisplayActivity.formatAvgSpeed(entry.getmAvgSpeed(), "Miles"));
                                 jInnerObject.put(Globals.FIELD_NAME_CALORIES, MapDisplayActivity.formatCalories(entry.getmCalorie()));
-                                jInnerObject.put(Globals.FIELD_NAME_CLIMB, MapDisplayActivity.formatClimb(entry.getmClimb(),"Miles"));
+                                jInnerObject.put(Globals.FIELD_NAME_CLIMB, MapDisplayActivity.formatClimb(entry.getmClimb(), "Miles"));
                                 jInnerObject.put(Globals.FIELD_NAME_HEARTRATE, Integer.toString(entry.getmHeartRate()));
                                 jInnerObject.put(Globals.FIELD_NAME_COMMENT, entry.getmComment()+" ");
                                 Log.d("Testing inner", jInnerObject.toString());
                                 jOuterArray.put(jInnerObject);
                             }
                             Log.d("Testing outer", jOuterArray.toString());
-                            ServerUtilities.post(Globals.URL+"/PostData.do", jOuterArray.toString());
+
+                            // Save parameters to map
+                            Map<String,String> params = new HashMap<>();
+                            params.put("result",jOuterArray.toString());
+                            params.put("regId", Globals.regID);
+
+                            ServerUtilities.post(Globals.URL+"/PostData.do", params);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

@@ -2,10 +2,6 @@ package com.example.edreichua.myruns6;
 
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,14 +30,15 @@ public final class ServerUtilities {
 	 * 
 	 * @param endpoint
 	 *            POST address.
-	 * @param jArrayString
+	 * @param params
 	 *            request parameters.
 	 * 
 	 * @throws IOException
 	 *             propagated from POST.
 	 */
-	public static void post(String endpoint, String jArrayString)
+	public static void post(String endpoint, Map<String,String> params)
 			throws IOException {
+
 		Log.d("Testing url", endpoint);
 		URL url;
 		try {
@@ -49,11 +46,6 @@ public final class ServerUtilities {
 		} catch (MalformedURLException e) {
 			throw new IllegalArgumentException("invalid url: " + endpoint);
 		}
-
-		// Save parameters to map
-		Map<String,String> params = new HashMap<>();
-		params.put("result",jArrayString);
-		params.put("regId",Globals.regID);
 
 		StringBuilder bodyBuilder = new StringBuilder();
 		Iterator<Map.Entry<String, String>> iterator = params.entrySet().iterator();

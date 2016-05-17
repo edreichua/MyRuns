@@ -26,7 +26,6 @@ public class ExerciseDataStore {
                 ExerciseData.EXERCISE_PARENT_KEY_ID);
     }
 
-
     public static boolean add(ExerciseData entry) {
 
         Key parentKey = getKey();
@@ -48,7 +47,6 @@ public class ExerciseDataStore {
         entity.setProperty(ExerciseData.FIELD_NAME_COMMENT, entry.mComment);
 
         mDatastore.put(entity);
-
         return true;
     }
 

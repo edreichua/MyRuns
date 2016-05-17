@@ -27,7 +27,12 @@ public class PostDataServlet extends HttpServlet {
 
         // Get parameters from req
         String jArrayString = req.getParameter("result");
-        String regID = req.getParameter("name");
+        String regID = req.getParameter("regId");
+
+        // Clear data store
+        for(ExerciseData data: ExerciseDataStore.query()){
+            ExerciseDataStore.delete(data.mID);
+        }
 
        //  Get Json Array
         JSONArray jArray = null;
