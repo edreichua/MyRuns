@@ -45,6 +45,7 @@ public class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
             msg = "Device registered, registration ID=" + regId;
             Log.d("Testing",msg);
             regService.register(regId).execute();
+            Globals.regID = regId;
 
         } catch (IOException ex) {
             ex.printStackTrace();

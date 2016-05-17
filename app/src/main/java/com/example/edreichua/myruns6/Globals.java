@@ -22,4 +22,5 @@ public class Globals {
     // Server utilities
     public static final String SENDER_ID = "1040154061256";
     public static final String URL = "https://ultra-badge-131020.appspot.com";
+    public static String regID = null;
 }

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,6 +134,7 @@ public class StartFragment extends Fragment {
 
                             for(ExerciseEntry entry: entries){
                                 JSONObject jInnerObject = new JSONObject();
+                                Log.d("Testing Acivity", Integer.toString(entry.getmActivityType()));
                                 jInnerObject.put(Globals.FIELD_NAME_ID, entry.getmId());
                                 jInnerObject.put(Globals.FIELD_NAME_INPUT, entry.getmInputType());
                                 jInnerObject.put(Globals.FIELD_NAME_ACTIVITY, entry.getmActivityType());
@@ -144,9 +146,10 @@ public class StartFragment extends Fragment {
                                 jInnerObject.put(Globals.FIELD_NAME_CLIMB, entry.getmClimb());
                                 jInnerObject.put(Globals.FIELD_NAME_HEARTRATE, entry.getmHeartRate());
                                 jInnerObject.put(Globals.FIELD_NAME_COMMENT, entry.getmComment());
-
+                                Log.d("Testing inner", jInnerObject.toString());
                                 jOuterArray.put(jInnerObject);
                             }
+                            Log.d("Testing outer", jOuterArray.toString());
                             ServerUtilities.post(Globals.URL+"/PostData.do", jOuterArray);
                         } catch (Exception e) {
                             e.printStackTrace();
