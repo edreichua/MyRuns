@@ -39,8 +39,6 @@ public class GcmIntentService extends IntentService {
 
             if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
 
-                showToast(extras.getString("message"));
-
                 // Get the rowid to perform deleting
                 long rowid = Long.parseLong(extras.getString("message"));
                 MainActivity.DBhelper.removeEntry(rowid);
@@ -49,19 +47,6 @@ public class GcmIntentService extends IntentService {
 
         // Finish the service intent, while keeping device awake
         GcmBroadcastReceiver.completeWakefulIntent(intent);
-    }
-
-    /**
-     * Print out the toast
-     * @param message
-     */
-    protected void showToast(final String message) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "entry " + message + " deleted", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
 }
