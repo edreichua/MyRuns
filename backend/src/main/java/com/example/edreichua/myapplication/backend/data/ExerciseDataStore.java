@@ -53,7 +53,7 @@ public class ExerciseDataStore {
     }
 
 
-    public static boolean delete(int id) {
+    public static boolean delete(String id) {
         // you can also use name to get key, then use the key to delete the
         // entity from datastore directly
         // because name is also the entity's key

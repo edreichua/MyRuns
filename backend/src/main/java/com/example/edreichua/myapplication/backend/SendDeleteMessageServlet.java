@@ -20,16 +20,16 @@ public class SendDeleteMessageServlet extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
 
-        int id = Integer.parseInt(req.getParameter("id"));
+        String id = req.getParameter("id");
         ExerciseDataStore.delete(id);
-        resp.sendRedirect("/query.do");
+        resp.sendRedirect("/MyRunsAppEngine.do");
 
         boolean ret = ExerciseDataStore.delete(id);
         if (ret) {
             req.setAttribute("_retStr", "Entry " + id + " successfully deleted");
 
             MessagingEndpoint msg = new MessagingEndpoint();
-            msg.sendMessage(Long.toString(id));
+            msg.sendMessage(id);
 
         }
         else {
