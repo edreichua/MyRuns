@@ -30,33 +30,48 @@ public class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... params) {
+
+        // Register the device with the server
         if (regService == null) {
-            Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
+            Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport(),
+                    new AndroidJsonFactory(), null)
                     .setRootUrl("https://ultra-badge-131020.appspot.com/_ah/api");
             regService = builder.build();
         }
 
-        String msg = "";
+        String message = "";
         try {
             if (gcm == null) {
                 gcm = GoogleCloudMessaging.getInstance(context);
             }
+
+            // Register the device with sender ID
             String regId = gcm.register(Globals.SENDER_ID);
-            msg = "Device registered, registration ID=" + regId;
-            Log.d("Testing",msg);
+            message = "Device registered, registration ID=" + regId;
+            Log.d("Testing",message);
+
+            // Execute the registration
             regService.register(regId).execute();
+
+            // Initialise the regID in globals
             Globals.regID = regId;
 
         } catch (IOException ex) {
+
+            // Print error message if registration fails
             ex.printStackTrace();
-            msg = "Error: " + ex.getMessage();
+            message = "Error: " + ex.getMessage();
         }
-        return msg;
+        return message;
     }
 
     @Override
     protected void onPostExecute(String msg) {
+
+        // print a toast to inform user on registration status
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+
+        // Insert a log too
         Logger.getLogger("REGISTRATION").log(Level.INFO, msg);
     }
 }

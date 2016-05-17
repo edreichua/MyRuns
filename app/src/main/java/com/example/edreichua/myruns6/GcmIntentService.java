@@ -21,29 +21,40 @@ public class GcmIntentService extends IntentService {
     }
 
     @Override
+    /**
+     * Handle intent from wakeful broadcast receiver
+     */
     protected void onHandleIntent(Intent intent) {
+
+        // Get the extras from the intent
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
-        // The getMessageType() intent parameter must be the intent you received
-        // in your BroadcastReceiver.
+
+        // Retrieve the message type of the intent
         String messageType = gcm.getMessageType(intent);
         Log.d("Testing intent", "triggered");
 
-        if (extras != null && !extras.isEmpty()) {  // has effect of unparcelling Bundle
-            // Since we're not using two way messaging, this is all we really to check for
+        // Make sure that we are receiving a message
+        if (extras != null && !extras.isEmpty()) {
+
             if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
 
                 showToast(extras.getString("message"));
+
+                // Get the rowid to perform deleting
                 long rowid = Long.parseLong(extras.getString("message"));
-
                 MainActivity.DBhelper.removeEntry(rowid);
-
             }
         }
 
+        // Finish the service intent, while keeping device awake
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
+    /**
+     * Print out the toast
+     * @param message
+     */
     protected void showToast(final String message) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override

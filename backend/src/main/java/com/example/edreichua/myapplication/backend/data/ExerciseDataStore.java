@@ -16,23 +16,31 @@ import java.util.logging.Logger;
  */
 public class ExerciseDataStore {
 
-    private static final Logger mLogger = Logger
-            .getLogger(ExerciseDataStore.class.getName());
+    // Obtain data store service as a static constant
     private static final DatastoreService mDatastore = DatastoreServiceFactory
             .getDatastoreService();
 
+    // Retrieve key
     private static Key getKey() {
         return KeyFactory.createKey(ExerciseData.EXERCISE_PARENT_ENTITY_ID,
                 ExerciseData.EXERCISE_PARENT_KEY_ID);
     }
 
+    /**
+     * Add entity to exercise data store
+     * @param entry
+     * @return
+     */
     public static boolean add(ExerciseData entry) {
 
+        // Get the key
         Key parentKey = getKey();
 
+        // Create an entity
         Entity entity = new Entity(ExerciseData.EXERCISE_ENTITY_ID, entry.mID,
                 parentKey);
 
+        // Set property of the entity
         entity.setProperty(ExerciseData.FIELD_NAME_ID, entry.mID);
         entity.setProperty(ExerciseData.FIELD_NAME_INPUT, entry.mInput);
         entity.setProperty(ExerciseData.FIELD_NAME_INPUT, entry.mInput);
@@ -46,48 +54,57 @@ public class ExerciseDataStore {
         entity.setProperty(ExerciseData.FIELD_NAME_HEARTRATE, entry.mHeartRate);
         entity.setProperty(ExerciseData.FIELD_NAME_COMMENT, entry.mComment);
 
+        // Add entity to datastore
         mDatastore.put(entity);
+
         return true;
     }
 
 
+    /**
+     * Delete entity from data store
+     * @param id
+     * @return true if deleted successfully, and false otherwise
+     */
     public static boolean delete(String id) {
-        // you can also use name to get key, then use the key to delete the
-        // entity from datastore directly
-        // because name is also the entity's key
 
-        // query
+        // Query the entity with the same row id
         Query.Filter filter = new Query.FilterPredicate(ExerciseData.FIELD_NAME_ID,
                 Query.FilterOperator.EQUAL, id);
-
         Query query = new Query(ExerciseData.EXERCISE_ENTITY_ID);
         query.setFilter(filter);
 
         // Use PreparedQuery interface to retrieve results
         PreparedQuery pq = mDatastore.prepare(query);
-
         Entity result = pq.asSingleEntity();
+
+        // Delete from data store
         boolean ret = false;
         if (result != null) {
-            // delete
             mDatastore.delete(result.getKey());
             ret = true;
         }
 
+        // Return true if deleted successfully, and false otherwise
         return ret;
     }
 
+    /**
+     * query method to return an arraylist of all the entities in the data store
+     * @return
+     */
     public static ArrayList<ExerciseData> query() {
+
+        // Initialise the arraylist to be returned
         ArrayList<ExerciseData> resultList = new ArrayList<>();
 
+        // Get every entity from the datastore
         Query query = new Query(ExerciseData.EXERCISE_ENTITY_ID);
-        // get every record from datastore, no filter
         query.setFilter(null);
-        // set query's ancestor to get strong consistency
         query.setAncestor(getKey());
-
         PreparedQuery pq = mDatastore.prepare(query);
 
+        // Use an iterable to retrieve all the entities from datastore
         for (Entity entity : pq.asIterable()) {
             ExerciseData data = getExerciseFromEntity(entity);
             if (data != null) {
@@ -95,14 +112,23 @@ public class ExerciseDataStore {
             }
         }
 
+        // return array list
         return resultList;
     }
 
+    /**
+     * Retrieve exercise data from entity
+     * @param entity
+     * @return
+     */
     private static ExerciseData getExerciseFromEntity(Entity entity) {
+
+        // Error check
         if (entity == null) {
             return null;
         }
 
+        // Create new exercise data by calling the constructor
         return new ExerciseData(
             (String) entity.getProperty(ExerciseData.FIELD_NAME_ID),
             (String) entity.getProperty(ExerciseData.FIELD_NAME_INPUT),

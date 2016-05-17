@@ -16,17 +16,34 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MyRunsAppEngineServlet extends HttpServlet {
 
-
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Standard doGet
+     * @param req
+     * @param resp
+     * @throws IOException
+     * @throws ServletException
+     */
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
+
+        // Get all the entities from data store
         ArrayList<ExerciseData> result = ExerciseDataStore.query();
         req.setAttribute("result", result);
+
+        // use query.jsp as template to present the data
         getServletContext().getRequestDispatcher("/query.jsp").forward(
                 req, resp);
     }
 
+    /**
+     * doPost to call doGet
+     * @param req
+     * @param resp
+     * @throws IOException
+     * @throws ServletException
+     */
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
         doGet(req, resp);

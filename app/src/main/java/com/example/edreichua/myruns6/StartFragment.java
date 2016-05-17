@@ -4,25 +4,15 @@ package com.example.edreichua.myruns6;
  * Created by edreichua on 4/22/16.
  */
 import android.app.Fragment;
-import android.content.AsyncTaskLoader;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -122,62 +112,11 @@ public class StartFragment extends Fragment {
             @Override
             public void onClick(View arg) {
 
-                new AsyncTask<Void, Void, String>() {
-
-                    @Override
-                    protected String doInBackground(Void... arg0) {
-
-                        try{
-                            ArrayList<ExerciseEntry> entries = new ReadFromDB(getActivity()).loadInBackground();
-                            JSONArray jOuterArray = new JSONArray();
-
-                            for(ExerciseEntry entry: entries){
-                                JSONObject jInnerObject = new JSONObject();
-                                Log.d("Testing Acivity", Integer.toString(entry.getmActivityType()));
-                                jInnerObject.put(Globals.FIELD_NAME_ID, Long.toString(entry.getmId()));
-                                jInnerObject.put(Globals.FIELD_NAME_INPUT, ID_TO_INPUT[entry.getmInputType()]);
-                                jInnerObject.put(Globals.FIELD_NAME_ACTIVITY, ID_TO_ACTIVITY[entry.getmActivityType()]);
-                                jInnerObject.put(Globals.FIELD_NAME_DATETIME, HistoryFragment.formatDateTime(entry.getmDateTime()));
-                                jInnerObject.put(Globals.FIELD_NAME_DURATION, HistoryFragment.formatDuration(entry.getmDuration()));
-                                jInnerObject.put(Globals.FIELD_NAME_DISTANCE, HistoryFragment.formatDistance(entry.getmDistance(), "Miles"));
-                                jInnerObject.put(Globals.FIELD_NAME_AVGSPEED, MapDisplayActivity.formatAvgSpeed(entry.getmAvgSpeed(), "Miles"));
-                                jInnerObject.put(Globals.FIELD_NAME_CALORIES, MapDisplayActivity.formatCalories(entry.getmCalorie()));
-                                jInnerObject.put(Globals.FIELD_NAME_CLIMB, MapDisplayActivity.formatClimb(entry.getmClimb(), "Miles"));
-                                jInnerObject.put(Globals.FIELD_NAME_HEARTRATE, Integer.toString(entry.getmHeartRate()));
-                                jInnerObject.put(Globals.FIELD_NAME_COMMENT, entry.getmComment()+" ");
-                                Log.d("Testing inner", jInnerObject.toString());
-                                jOuterArray.put(jInnerObject);
-                            }
-                            Log.d("Testing outer", jOuterArray.toString());
-
-                            // Save parameters to map
-                            Map<String,String> params = new HashMap<>();
-                            params.put("result",jOuterArray.toString());
-                            params.put("regId", Globals.regID);
-
-                            ServerUtilities.post(Globals.URL+"/PostData.do", params);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return "";
-                    }
-                }.execute();
+                // Execute HistoryUploader
+                new HistoryUploader().execute();
+                Toast.makeText(getActivity(), "Sync", Toast.LENGTH_SHORT).show();
             }
         });
-
         return rootView;
-    }
-
-    public static class ReadFromDB extends AsyncTaskLoader<ArrayList<ExerciseEntry>> {
-
-        public ReadFromDB(Context context){
-            super(context);
-        }
-
-        @Override
-        public ArrayList<ExerciseEntry> loadInBackground() {
-            ArrayList<ExerciseEntry> entries = MainActivity.DBhelper.fetchEntries();
-            return entries;
-        }
     }
 }

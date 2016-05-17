@@ -22,10 +22,17 @@ import javax.servlet.http.HttpServletResponse;
 public class PostDataServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Standard doGet
+     * @param req
+     * @param resp
+     * @throws IOException
+     * @throws ServletException
+     */
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
 
-        // Get parameters from req
+        // Get parameters from request
         String jArrayString = req.getParameter("result");
         String regID = req.getParameter("regId");
 
@@ -42,14 +49,17 @@ public class PostDataServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        // Get all the exercise data from Json array by parsing
         ArrayList<ExerciseData> result = new ArrayList<>();
 
+        // Loop through each json object to retrieve exercise data
         for(int i = 0; i < jArray.length(); i++) {
 
             try {
+                // Get json object by parsing
                 JSONObject jsonOuterObject = jArray.getJSONObject(i);
 
-                // Get parameters from client
+                // Get parameters for exercise data from json object
                 String id = (String) jsonOuterObject.get(ExerciseData.FIELD_NAME_ID);
                 String input = (String) jsonOuterObject.get(ExerciseData.FIELD_NAME_INPUT);
                 String activity = (String) jsonOuterObject.get(ExerciseData.FIELD_NAME_ACTIVITY);
@@ -62,11 +72,14 @@ public class PostDataServlet extends HttpServlet {
                 String heartrate = (String) jsonOuterObject.get(ExerciseData.FIELD_NAME_HEARTRATE);
                 String comment = (String) jsonOuterObject.get(ExerciseData.FIELD_NAME_COMMENT);
 
-                // Set ExerciseData for server
+                // Set ExerciseData for jsp
                 ExerciseData entry = new ExerciseData(id, input, activity, datetime, duration,
                         distance, avgspeed, calories, climb, heartrate, comment);
+
+                // Add ExerciseData to data store
                 boolean ret = ExerciseDataStore.add(entry);
 
+                // Add ExerciseData to result arraylist to be passed to jsp file
                 if (ret) {
                     result.add(entry);
                 }
@@ -75,11 +88,20 @@ public class PostDataServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
+
+        // Set attribute and pass result array to jsp file for formatting
         req.setAttribute("result", result);
         getServletContext().getRequestDispatcher("/query.jsp").forward(
                 req, resp);
     }
 
+    /**
+     * doPost to call doGet
+     * @param req
+     * @param resp
+     * @throws IOException
+     * @throws ServletException
+     */
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
         doGet(req, resp);

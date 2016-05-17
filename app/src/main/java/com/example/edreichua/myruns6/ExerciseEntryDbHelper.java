@@ -82,7 +82,7 @@ public class ExerciseEntryDbHelper extends SQLiteOpenHelper {
 
 
     // Insert a item given each column value
-    public long insertEntry(ExerciseEntry entry) {
+    public synchronized long insertEntry(ExerciseEntry entry) {
 
         // Insert all the values
         ContentValues values = new ContentValues();
@@ -110,7 +110,7 @@ public class ExerciseEntryDbHelper extends SQLiteOpenHelper {
 
 
     // Remove an entry by giving its index
-    public void removeEntry(long rowIndex) {
+    public synchronized void removeEntry(long rowIndex) {
 
         SQLiteDatabase database = getWritableDatabase();
         database.delete(TABLE_NAME_ENTRIES, KEY_ROWID
@@ -121,7 +121,7 @@ public class ExerciseEntryDbHelper extends SQLiteOpenHelper {
 
     // Query a specific entry by its index.
 
-    public ExerciseEntry fetchEntryByIndex(long rowId) {
+    public synchronized ExerciseEntry fetchEntryByIndex(long rowId) {
         SQLiteDatabase database = getReadableDatabase();
 
         Cursor cursor = database.query(TABLE_NAME_ENTRIES, null,
@@ -139,7 +139,7 @@ public class ExerciseEntryDbHelper extends SQLiteOpenHelper {
 
 
     // Query the entire table, return all rows
-    public ArrayList<ExerciseEntry> fetchEntries() {
+    public synchronized ArrayList<ExerciseEntry> fetchEntries() {
 
         ArrayList<ExerciseEntry> entries = new ArrayList<>();
         SQLiteDatabase database = getReadableDatabase();
@@ -163,7 +163,7 @@ public class ExerciseEntryDbHelper extends SQLiteOpenHelper {
         return entries;
     }
 
-    private ExerciseEntry cursorToExerciseEntry(Cursor cursor) {
+    private synchronized ExerciseEntry cursorToExerciseEntry(Cursor cursor) {
 
         ExerciseEntry entry = new ExerciseEntry();
         entry.setmId(cursor.getLong(0));
