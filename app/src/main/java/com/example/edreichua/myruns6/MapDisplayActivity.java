@@ -421,7 +421,6 @@ public class MapDisplayActivity extends FragmentActivity implements ServiceConne
         // Draw the end marker
         endLoc = mMap.addMarker(new MarkerOptions().position(latLngList.get(latLngList.size() - 1))
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-
     }
 
     // Draws progress while recording a new exercise
@@ -519,7 +518,6 @@ public class MapDisplayActivity extends FragmentActivity implements ServiceConne
             // Execute writing to database
             new WriteToDB().execute();
         }
-
     }
 
     /**
@@ -682,7 +680,6 @@ public class MapDisplayActivity extends FragmentActivity implements ServiceConne
 
 
     /////////////////////// Use AsyncTask to write to database ///////////////////////
-
 
     private class WriteToDB extends AsyncTask<ExerciseEntry, Integer, String> {
 

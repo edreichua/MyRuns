@@ -397,7 +397,6 @@ public class TrackingService extends Service implements LocationListener, Sensor
     public void onStatusChanged(String provider, int status, Bundle extras) {}
 
 
-
     /////////////////////// Sensor functionality ///////////////////////
 
     @Override
@@ -501,4 +500,3 @@ public class TrackingService extends Service implements LocationListener, Sensor
         }
     }
 }
-

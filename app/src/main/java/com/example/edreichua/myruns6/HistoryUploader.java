@@ -38,7 +38,7 @@ public class HistoryUploader extends AsyncTask<Void, Void, String>{
 
                 // Create a json object for each entry
                 JSONObject jInnerObject = new JSONObject();
-                Log.d("Testing Acivity", Integer.toString(entry.getmActivityType()));
+                Log.d("Testing", "Activity Type: " + Integer.toString(entry.getmActivityType()));
 
                 // Insert components of entries into json object
                 jInnerObject.put(Globals.FIELD_NAME_ID,
@@ -63,12 +63,12 @@ public class HistoryUploader extends AsyncTask<Void, Void, String>{
                         Integer.toString(entry.getmHeartRate()));
                 jInnerObject.put(Globals.FIELD_NAME_COMMENT,
                         entry.getmComment()+" ");
-                Log.d("Testing inner", jInnerObject.toString());
+                Log.d("Testing", "Inner object: " + jInnerObject.toString());
 
                 // Add json object to json array
                 jOuterArray.put(jInnerObject);
             }
-            Log.d("Testing outer", jOuterArray.toString());
+            Log.d("Testing", "Outer object: " + jOuterArray.toString());
 
             // Save parameters to map
             Map<String,String> params = new HashMap<>();
@@ -82,5 +82,4 @@ public class HistoryUploader extends AsyncTask<Void, Void, String>{
         }
         return "";
     }
-
 }

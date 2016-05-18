@@ -87,5 +87,4 @@ public class RegistrationEndpoint {
     private RegistrationRecord findRecord(String regId) {
         return ofy().load().type(RegistrationRecord.class).filter("regId", regId).first().now();
     }
-
 }

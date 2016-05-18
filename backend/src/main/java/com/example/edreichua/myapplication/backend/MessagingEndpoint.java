@@ -58,7 +58,7 @@ public class MessagingEndpoint {
             log.warning("Not sending message because it is empty");
             return;
         }
-        // crop longer messages
+        // Crop longer messages
         if (message.length() > 1000) {
             message = message.substring(0, 1000) + "[...]";
         }
@@ -71,7 +71,7 @@ public class MessagingEndpoint {
                 log.info("Message sent to " + record.getRegId());
                 String canonicalRegId = result.getCanonicalRegistrationId();
                 if (canonicalRegId != null) {
-                    // if the regId changed, we have to update the datastore
+                    // If the regId changed, we have to update the datastore
                     log.info("Registration Id changed for " + record.getRegId() + " updating to " + canonicalRegId);
                     record.setRegId(canonicalRegId);
                     ofy().save().entity(record).now();
@@ -80,7 +80,7 @@ public class MessagingEndpoint {
                 String error = result.getErrorCodeName();
                 if (error.equals(Constants.ERROR_NOT_REGISTERED)) {
                     log.warning("Registration Id " + record.getRegId() + " no longer registered with GCM, removing from datastore");
-                    // if the device is no longer registered with Gcm, remove it from the datastore
+                    // If the device is no longer registered with Gcm, remove it from the datastore
                     ofy().delete().entity(record).now();
                 } else {
                     log.warning("Error when sending message : " + error);

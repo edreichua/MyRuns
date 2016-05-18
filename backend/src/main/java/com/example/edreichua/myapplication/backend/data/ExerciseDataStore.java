@@ -9,7 +9,6 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 /**
  * Created by edreichua on 5/14/16.
@@ -40,7 +39,7 @@ public class ExerciseDataStore {
         Entity entity = new Entity(ExerciseData.EXERCISE_ENTITY_ID, entry.mID,
                 parentKey);
 
-        // Set property of the entity
+        // Set the properties of the entity
         entity.setProperty(ExerciseData.FIELD_NAME_ID, entry.mID);
         entity.setProperty(ExerciseData.FIELD_NAME_INPUT, entry.mInput);
         entity.setProperty(ExerciseData.FIELD_NAME_INPUT, entry.mInput);
@@ -60,7 +59,6 @@ public class ExerciseDataStore {
         return true;
     }
 
-
     /**
      * Delete entity from data store
      * @param id
@@ -68,7 +66,7 @@ public class ExerciseDataStore {
      */
     public static boolean delete(String id) {
 
-        // Query the entity with the same row id
+        // Query the entity with the passed row id
         Query.Filter filter = new Query.FilterPredicate(ExerciseData.FIELD_NAME_ID,
                 Query.FilterOperator.EQUAL, id);
         Query query = new Query(ExerciseData.EXERCISE_ENTITY_ID);
@@ -90,21 +88,21 @@ public class ExerciseDataStore {
     }
 
     /**
-     * query method to return an arraylist of all the entities in the data store
+     * Query method to return an ArrayList of all the entities in the data store
      * @return
      */
     public static ArrayList<ExerciseData> query() {
 
-        // Initialise the arraylist to be returned
+        // Initialise the ArrayList to be returned
         ArrayList<ExerciseData> resultList = new ArrayList<>();
 
-        // Get every entity from the datastore
+        // Get every entity from the data store
         Query query = new Query(ExerciseData.EXERCISE_ENTITY_ID);
         query.setFilter(null);
         query.setAncestor(getKey());
         PreparedQuery pq = mDatastore.prepare(query);
 
-        // Use an iterable to retrieve all the entities from datastore
+        // Use an iterable to retrieve all the entities from data store
         for (Entity entity : pq.asIterable()) {
             ExerciseData data = getExerciseFromEntity(entity);
             if (data != null) {
@@ -112,7 +110,7 @@ public class ExerciseDataStore {
             }
         }
 
-        // return array list
+        // return ArrayList
         return resultList;
     }
 
@@ -123,7 +121,7 @@ public class ExerciseDataStore {
      */
     private static ExerciseData getExerciseFromEntity(Entity entity) {
 
-        // Error check
+        // Error checking to handle a null entity
         if (entity == null) {
             return null;
         }

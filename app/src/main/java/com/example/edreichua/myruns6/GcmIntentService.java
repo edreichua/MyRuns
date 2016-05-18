@@ -3,15 +3,9 @@ package com.example.edreichua.myruns6;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class GcmIntentService extends IntentService {
@@ -32,21 +26,24 @@ public class GcmIntentService extends IntentService {
 
         // Retrieve the message type of the intent
         String messageType = gcm.getMessageType(intent);
-        Log.d("Testing intent", "triggered");
+        Log.d("Testing", "Intent triggered");
 
         // Make sure that we are receiving a message
         if (extras != null && !extras.isEmpty()) {
 
+            // Make sure the message type is "gcm"
             if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
 
-                // Get the rowid to perform deleting
+                // Get the row ID to perform deleting
                 long rowid = Long.parseLong(extras.getString("message"));
-                MainActivity.DBhelper.removeEntry(rowid);
+
+                // Delete entry from the database
+                ExerciseEntryDbHelper dbHelper = new ExerciseEntryDbHelper(this);
+                dbHelper.removeEntry(rowid);
             }
         }
 
         // Finish the service intent, while keeping device awake
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
-
 }

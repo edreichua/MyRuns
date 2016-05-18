@@ -20,6 +20,7 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
         // Trigger the service and keep the device awake
         startWakefulService(context, (intent.setComponent(comp)));
 
+        // Indicate that the operation was successful
         setResultCode(Activity.RESULT_OK);
     }
 }

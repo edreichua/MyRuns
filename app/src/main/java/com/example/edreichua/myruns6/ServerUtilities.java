@@ -15,7 +15,6 @@ import java.util.Map;
 
 /**
  * Helper class used to communicate with the AppEngine server.
- *
  */
 public final class ServerUtilities {
 
@@ -34,7 +33,7 @@ public final class ServerUtilities {
 			throws IOException {
 
 		// Test for malformed URL
-		Log.d("Testing url", endpoint);
+		Log.d("Testing", "URL: " + endpoint);
 		URL url;
 		try {
 			url = new URL(endpoint);
@@ -85,17 +84,18 @@ public final class ServerUtilities {
 				throw new IOException("Post failed with error code " + status);
 			}
 
-			// Get Response
+			// Get response
 			InputStream is = conn.getInputStream();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is));
 			String line;
 			StringBuffer response = new StringBuffer();
 
+			// Read response
 			while ((line = rd.readLine()) != null) {
 				response.append(line);
 				response.append('\n');
 			}
-			Log.d("Test response",response.toString());
+			Log.d("Testing", "Response: " + response.toString());
 			rd.close();
 
 		} finally {

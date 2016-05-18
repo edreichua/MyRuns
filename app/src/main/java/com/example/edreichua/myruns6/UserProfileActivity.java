@@ -138,6 +138,7 @@ public class UserProfileActivity extends Activity{
         super.onDestroy();
     }
 
+
     /////////////////////// Handle Selection of buttons ///////////////////////
 
     /**
@@ -241,7 +242,6 @@ public class UserProfileActivity extends Activity{
             default:
                 return;
         }
-
     }
 
 

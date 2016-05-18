@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 
 import com.example.edreichua.myruns6.view.SlidingTabLayout;
 
@@ -78,8 +77,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        // Register device with google cloud messaging
+        // Register device with Google Cloud Messaging
         new GcmRegistrationAsyncTask(this).execute();
-
     }
 }

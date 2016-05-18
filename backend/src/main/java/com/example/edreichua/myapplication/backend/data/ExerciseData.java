@@ -32,7 +32,7 @@ public class ExerciseData {
                         String _duration, String _distance, String _avgSpeed,
                         String _calories, String _climb, String _heartrate, String _comment) {
 
-        // initialize parameters
+        // Initialize parameters
         mID = _id;
         mInput = _input;
         mActivity = _activity;

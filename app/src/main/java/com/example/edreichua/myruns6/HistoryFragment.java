@@ -62,7 +62,6 @@ public class HistoryFragment extends ListFragment implements
     }
 
 
-
     /////////////////////// Override ListFragment functionality ///////////////////////
 
     @Override
@@ -249,5 +248,4 @@ public class HistoryFragment extends ListFragment implements
         }
         return String.format("%.2f", distance)+" "+unitPref;
     }
-
 }

@@ -7,7 +7,6 @@ import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -41,7 +40,7 @@ public class PostDataServlet extends HttpServlet {
             ExerciseDataStore.delete(data.mID);
         }
 
-       //  Get Json Array
+        // Get JSON array
         JSONArray jArray = null;
         try {
             jArray = new JSONArray(jArrayString);
@@ -49,7 +48,7 @@ public class PostDataServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        // Get all the exercise data from Json array by parsing
+        // Get all the exercise data from JSON array by parsing
         ArrayList<ExerciseData> result = new ArrayList<>();
 
         // Loop through each json object to retrieve exercise data
@@ -59,7 +58,7 @@ public class PostDataServlet extends HttpServlet {
                 // Get json object by parsing
                 JSONObject jsonOuterObject = jArray.getJSONObject(i);
 
-                // Get parameters for exercise data from json object
+                // Get parameters for exercise data from JSON object
                 String id = (String) jsonOuterObject.get(ExerciseData.FIELD_NAME_ID);
                 String input = (String) jsonOuterObject.get(ExerciseData.FIELD_NAME_INPUT);
                 String activity = (String) jsonOuterObject.get(ExerciseData.FIELD_NAME_ACTIVITY);
@@ -79,7 +78,7 @@ public class PostDataServlet extends HttpServlet {
                 // Add ExerciseData to data store
                 boolean ret = ExerciseDataStore.add(entry);
 
-                // Add ExerciseData to result arraylist to be passed to jsp file
+                // Add ExerciseData to result ArrayList to be passed to jsp file
                 if (ret) {
                     result.add(entry);
                 }
@@ -106,5 +105,4 @@ public class PostDataServlet extends HttpServlet {
             throws IOException, ServletException {
         doGet(req, resp);
     }
-
 }

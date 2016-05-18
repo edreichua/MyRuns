@@ -2,6 +2,8 @@ package com.example.edreichua.myruns6;
 
 /**
  * Created by edreichua on 5/14/16.
+ * A number of global static final variables to be accessed
+ * for various functions throughout the app
  */
 public class Globals {
 
@@ -17,7 +19,6 @@ public class Globals {
     public static final String FIELD_NAME_CLIMB = "climb";
     public static final String FIELD_NAME_HEARTRATE = "heartrate";
     public static final String FIELD_NAME_COMMENT = "comment";
-
 
     // Server utilities
     public static final String SENDER_ID = "1040154061256";

@@ -41,7 +41,8 @@ public class ExerciseEntryDbHelper extends SQLiteOpenHelper {
     public static final String KEY_PRIVACY = "privacy";
     public static final String KEY_GPS_DATA = "gps";
 
-    // Database creation sql statement
+
+    // Database creation SQL statement
     public static final String CREATE_TABLE_ENTRIES = "CREATE TABLE IF NOT EXISTS "
             + TABLE_NAME_ENTRIES + " ("
             + KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -120,7 +121,6 @@ public class ExerciseEntryDbHelper extends SQLiteOpenHelper {
 
 
     // Query a specific entry by its index.
-
     public synchronized ExerciseEntry fetchEntryByIndex(long rowId) {
         SQLiteDatabase database = getReadableDatabase();
 
@@ -137,7 +137,6 @@ public class ExerciseEntryDbHelper extends SQLiteOpenHelper {
     }
 
 
-
     // Query the entire table, return all rows
     public synchronized ArrayList<ExerciseEntry> fetchEntries() {
 
@@ -149,7 +148,7 @@ public class ExerciseEntryDbHelper extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
 
-        // fetch entry one by one until cursor reaches the end
+        // Fetch the entries one by one until cursor reaches the end
         while (!cursor.isAfterLast()) {
             ExerciseEntry entry = cursorToExerciseEntry(cursor);
             Log.d(TAG, cursorToExerciseEntry(cursor).toString());
@@ -162,6 +161,7 @@ public class ExerciseEntryDbHelper extends SQLiteOpenHelper {
 
         return entries;
     }
+
 
     private synchronized ExerciseEntry cursorToExerciseEntry(Cursor cursor) {
 
@@ -185,5 +185,4 @@ public class ExerciseEntryDbHelper extends SQLiteOpenHelper {
 
         return entry;
     }
-
 }
